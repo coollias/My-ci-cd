@@ -8,17 +8,20 @@
 - 支持多个项目
 - 在网页里编辑每个项目的 `deploy.sh`
 - 实时查看部署日志
-- 项目配置保存在 `data/projects.json`
+- 可使用 MySQL 保存项目配置和部署记录
+- 未配置 MySQL 时，项目配置保存在 `data/projects.json`
 - 部署日志保存在 `data/runs/`
-- 零第三方依赖，Node.js 18+ 即可运行
+- Node.js 18+ 即可运行
 
 ## 快速启动
 
 ```bash
 cp .env.example .env
-export DEPLOY_TOKEN="换成一个足够长的随机字符串"
+npm install
 npm start
 ```
+
+启动前请编辑 `.env`，至少修改 `DEPLOY_TOKEN`。
 
 打开：
 
@@ -28,9 +31,31 @@ http://你的服务器IP:7331
 
 第一次进入页面时，在左侧输入 `DEPLOY_TOKEN` 并保存。
 
+## MySQL 模式
+
+当 `.env` 中设置了 `DB_HOST` 和 `DB_USER` 时，系统会使用 MySQL：
+
+```env
+DB_HOST=rm-bp157o1t88nfl189jjo.mysql.rds.aliyuncs.com
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=你的数据库密码
+DB_NAME=my_ci_cd
+```
+
+启动时会自动创建：
+
+- `my_ci_cd` 数据库
+- `projects` 项目配置表
+- `deployment_runs` 部署记录表
+
+如果数据库里还没有项目，系统会把 `data/projects.json` 里的示例项目导入到 MySQL。
+
+如果不想使用 MySQL，删除或注释 `.env` 里的 `DB_HOST` 和 `DB_USER` 即可回到本地 JSON 模式。
+
 ## 项目配置
 
-项目列表在 `data/projects.json`：
+MySQL 模式下，项目列表保存在 `projects` 表。JSON 模式下，项目列表保存在 `data/projects.json`：
 
 ```json
 [
@@ -90,7 +115,7 @@ git ls-remote git@github.com:coollias/你的仓库.git
 
 ```bash
 npm install -g pm2
-DEPLOY_TOKEN="换成一个足够长的随机字符串" pm2 start server.js --name my-ci-cd
+pm2 start server.js --name my-ci-cd
 pm2 save
 ```
 
@@ -109,6 +134,11 @@ WorkingDirectory=/opt/my-ci-cd
 Environment=PORT=7331
 Environment=HOST=0.0.0.0
 Environment=DEPLOY_TOKEN=换成一个足够长的随机字符串
+Environment=DB_HOST=rm-bp157o1t88nfl189jjo.mysql.rds.aliyuncs.com
+Environment=DB_PORT=3306
+Environment=DB_USER=root
+Environment=DB_PASSWORD=你的数据库密码
+Environment=DB_NAME=my_ci_cd
 ExecStart=/usr/bin/node /opt/my-ci-cd/server.js
 Restart=always
 RestartSec=3
