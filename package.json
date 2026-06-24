@@ -1,0 +1,21 @@
+{
+  "name": "my-ci-cd",
+  "version": "1.0.0",
+  "description": "A lightweight manual deployment panel that pulls code from GitHub and runs editable deploy scripts.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "ci",
+    "cd",
+    "deploy",
+    "github"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}

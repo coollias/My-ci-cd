@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>My CI/CD</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark">CI</span>
+          <div>
+            <h1>My CI/CD</h1>
+            <p>手动拉取部署面板</p>
+          </div>
+        </div>
+
+        <label class="field">
+          <span>访问令牌</span>
+          <input id="tokenInput" type="password" autocomplete="current-password" placeholder="DEPLOY_TOKEN" />
+        </label>
+
+        <button id="saveTokenBtn" class="primary-btn">保存令牌</button>
+        <button id="refreshBtn" class="ghost-btn">刷新项目</button>
+
+        <nav id="projectList" class="project-list"></nav>
+      </aside>
+
+      <section class="workspace">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Manual Deployment</p>
+            <h2 id="projectTitle">选择一个项目</h2>
+          </div>
+          <div class="actions">
+            <button id="saveConfigBtn" class="ghost-btn">保存项目配置</button>
+            <button id="saveScriptBtn" class="ghost-btn">保存 deploy.sh</button>
+            <button id="deployBtn" class="primary-btn">拉取并部署</button>
+          </div>
+        </header>
+
+        <section class="details-grid">
+          <label class="field">
+            <span>项目名</span>
+            <input id="nameInput" />
+          </label>
+          <label class="field">
+            <span>仓库地址</span>
+            <input id="repoInput" />
+          </label>
+          <label class="field">
+            <span>分支</span>
+            <input id="branchInput" />
+          </label>
+          <label class="field">
+            <span>服务器目录</span>
+            <input id="workDirInput" />
+          </label>
+        </section>
+
+        <section class="editor-log-grid">
+          <section class="panel">
+            <div class="panel-title">
+              <h3>deploy.sh</h3>
+              <span id="scriptPathLabel"></span>
+            </div>
+            <textarea id="scriptEditor" spellcheck="false"></textarea>
+          </section>
+
+          <section class="panel">
+            <div class="panel-title">
+              <h3>部署日志</h3>
+              <span id="statusLabel">Idle</span>
+            </div>
+            <pre id="logBox"></pre>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

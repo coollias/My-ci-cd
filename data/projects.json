@@ -1,0 +1,10 @@
+[
+  {
+    "id": "example-site",
+    "name": "Example Site",
+    "repoUrl": "git@github.com:coollias/example-site.git",
+    "branch": "main",
+    "workDir": "/var/www/example-site",
+    "scriptPath": "scripts/example-site/deploy.sh"
+  }
+]
